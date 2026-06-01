@@ -1,13 +1,36 @@
+# === Web 框架 ===
 Django==5.2
-django-threadlocals
-PyMySQL>=1.1.1,<2
-click
-requests
-xlrd==1.2.0
-Flask==1.1.2
-cryptography==41.0.4
+django-threadlocals>=0.10
 django-cors-headers>=4.7,<5
-
-openai==1.39.0
-pycryptodome
 dwebsocket==0.5.12
+Flask>=1.1.2,<4
+
+# === 数据库 ===
+PyMySQL>=1.1.1,<2
+
+# === HTTP 客户端 ===
+requests>=2.32.0
+click>=8.1.0
+
+# === 加解密 ===
+cryptography>=42.0.0
+pycryptodome>=3.20.0
+
+# === Excel 处理 ===
+xlrd==1.2.0
+
+# === AI/OpenAI ===
+openai>=1.39.0,<2
+
+# === SQL 解析 ===
+sqlparse>=0.5.0
+
+# === 大数据/Hive ===
+impyla>=0.19.0
+hdfs>=2.7.3
+
+# === MapReduce ===
+mrjob>=0.7.4
+
+# === Spark ML（可选，需Java/Hadoop环境） ===
+# pyspark>=3.5.0
