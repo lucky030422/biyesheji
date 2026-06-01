@@ -1,12 +1,12 @@
-django==2.0
+Django==5.2
 django-threadlocals
-pymysql==1.0.2
+PyMySQL>=1.1.1,<2
 click
 requests
 xlrd==1.2.0
 Flask==1.1.2
 cryptography==41.0.4
-django-cors-headers==2.4.0
+django-cors-headers>=4.7,<5
 
 openai==1.39.0
 pycryptodome

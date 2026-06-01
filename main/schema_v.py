@@ -20,13 +20,21 @@ from dj2.settings import hasHadoop
 from django.db import connection
 from dj2.views import check_suffix
 import sys
+import django
 from openai import OpenAI
-from dwebsocket.decorators import accept_websocket
+
+if django.VERSION < (5, 0):
+    from dwebsocket.decorators import accept_websocket
+else:
+    def accept_websocket(func):
+        return func
 
 connected_clients = {}
 
 @accept_websocket
 def websocket_connect(request):
+    if not hasattr(request, "is_websocket"):
+        return JsonResponse({"code": 500, "msg": "WebSocket support requires a Django 5 compatible websocket backend"})
     print("is_websocket:",request.is_websocket())
 
     if request.is_websocket():  # 如果请求是websocket请求：
