@@ -1,0 +1,240 @@
+/* 1. 页面容器 */
+.list-wrapper {
+  width: 100%;
+  background: #F0F0F0;
+  padding: 30px;
+  border-radius: 24px;
+}
+
+/* 1.1 搜索 */
+.search-wrapper {
+  padding: 20px;
+  border-radius:14px;
+  border-width: 0!important;
+  margin: 0 0 20px;
+  
+  .el-form-item {
+    margin-bottom: 12px;
+  }
+    /* 提示语 */
+  .el-select__placeholder,
+  .el-input__inner::placeholder {
+    color: #000000;
+  }
+ .el-form-item__label{
+  color: #000000;
+ }
+.el-select__placeholder.is-transparent{
+  color: #000000;
+}
+  /* 文本框宽度 */
+  .el-input {
+    --el-input-width: 180px;
+    color: #000000;
+  }
+
+  /* 单选框宽度 */
+  .el-select {
+    --el-select-width: 180px;
+  }
+
+  /* 搜索按钮 */
+  .searchbtn {
+    .el-button {
+      background: linear-gradient( 145deg, #179BED 0%, #670CFE 100%);
+      border-radius: 28px;
+      padding: 0 15px;
+      color: #fff;
+
+      &:hover {
+        background: #2062D2;
+      }
+    }
+  }
+}
+
+
+/* 1.2 表头的按钮 */
+.header-button-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  .el-button+.el-button {
+    margin-left: 0;
+  }
+
+  /* 添加 */
+  .action-add,.action-removes, .el-button {
+    border-radius: 24px;
+    color: #fff;
+
+  }
+   .action-add{
+    background: #2062D2!important;
+   }
+   .action-removes{
+    background: red!important;
+   }
+   .el-button{
+    background:linear-gradient( 145deg, #179BED 0%, #670CFE 100%);
+   }
+  .el-button:hover{
+    opacity: 0.8;
+   
+       color: #fff;
+  }
+  /* 删除 */
+  .action-removes {}
+
+  /* 其它 */
+  .el-button {}
+}
+
+
+/* 1.3 表格 */
+.el-table {
+
+  /* 提醒功能的高亮 */
+  .warn-row {
+    background-color: rgb(253, 246, 236);
+  }
+
+  .cell {
+    line-height: 32px;
+  }
+}
+
+
+/* 表格的图片 */
+.table-image {
+  height: 32px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* 表格的操作按钮 */
+.table-button-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  .el-button+.el-button {
+    margin-left: 0;
+  }
+}
+.el-table {
+  border-radius: 14px;
+  margin: 30px 0;
+  color:  #000000;
+  --el-table-header-bg-color: #F0F0F0 !important;
+  --el-table-border-color: #000000 !important;
+}
+
+.el-table tr {
+  background: #F0F0F0 !important;
+}
+ .el-table thead{
+    color: #000000;
+    font-weight: 400!important;
+  }
+  .el-checkbox__inner{
+    border-radius: 100%;
+       border-color: #000000;
+       background: none;
+  }
+  /* 选框按钮 */
+  .el-checkbox__inner:hover{
+      border-color: #000000;
+  }
+  .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+    background: #000000;
+    border: 1px solid #000000;
+  }
+  .el-checkbox__input.is-checked .el-checkbox__inner{
+    background: #000000;
+    border: 1px solid #000000;
+  }
+  .table-button-wrapper button,.el-button:active,.el-button:hover{
+    border-width: 0!important;
+    color: #000000;
+    background: none;
+  }
+
+.el-switch .el-switch__core{
+  background: #999;
+  border: 0 ;
+}
+.el-switch.is-checked .el-switch__core{
+  background: #000000!important;
+  border: 0 ;
+}
+
+/* 分页 */
+.pagination {
+  width: 100%;
+  background-color: none;
+  padding: 20px;
+  display: flex;
+  justify-content: flex-end;
+
+  /* 按钮的背景颜色 */
+  .el-pagination {
+    --el-pagination-button-bg-color: none;
+
+  }
+
+  .el-pagination__sizes,
+  .el-pagination__total {
+    color: #212D3F !important;
+  }
+
+  /* 激活 */
+  .el-pagination.is-background .el-pager li.is-active {
+    background-color: var(--btn-bg-color-);
+    color: var(--btn-font-color-);
+  }
+}
+
+.el-button--small {
+  border: 0;
+  color: #212D3F !important;
+  background: none !important;
+}
+
+.el-button--small:hover {
+  opacity: 0.8;
+}
+
+.el-input__wrapper,
+.el-select__wrapper,
+.el-textarea__inner,
+.ql {
+  border: 1px solid #212D3F !important;
+}
+
+.el-select__placeholder {
+  color: #212D3F !important;
+}
+
+.el-pagination.is-background .btn-next .el-pagination.is-background .btn-next:disabled,
+.el-pagination.is-background .btn-prev.is-disabled,
+.el-pagination.is-background .btn-prev:disabled,
+.el-pagination.is-background .el-pager li.is-disabled,
+.el-pagination.is-background .el-pager li {
+  border: 1px solid #212D3F !important;
+  color: #212D3F !important;
+}
+
+.el-pagination.is-background .el-pager li.is-active {
+  border: 0px solid #212D3F !important;
+  background: #2062D2 !important;
+  color: #fff !important;
+}
+
+.el-pagination .btn-next,
+.el-pager li {
+  border: 1px solid #212D3F !important;
+  color: #212D3F !important;
+  background: none !important;
+}

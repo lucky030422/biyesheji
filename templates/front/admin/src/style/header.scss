@@ -1,0 +1,223 @@
+/* 页面盒子 */
+.layout-page {
+  background: #ECECEC;
+  width: 100%;
+  height: auto;
+  padding: 90px 20px 20px 20px;
+  position: relative;
+  min-height: 100vh;
+  overflow: auto;
+
+  /* 菜单 */
+  .menu-wrapper {
+    position: fixed;
+    left: 0px;
+    width: var(--menu-width--);
+    height: calc(100% - 130px);
+    overflow: hidden;
+    z-index: 201;
+    border-width: 0 !important;
+    border-style: solid;
+    border-color: #F9A39B;
+    padding: 10px 0 0 0;
+
+    /* 一级菜单栏 */
+    & .el-menu {
+      .el-menu-item {
+        color: #000000;
+        font-size: 16px;
+      }
+
+      .el-menu-item .el-icon {
+        font-size: 32px;
+        color: inherit;
+      }
+
+      .el-menu-item:hover,
+      .el-menu-item.is-active {
+        background: linear-gradient(137deg, #08B1FB 0%, #6004F5 100%);
+        color: #DCEFFE;
+        box-shadow: 0px 8px 6px 1px rgba(188, 170, 154, 0.69);
+      }
+
+      .el-sub-menu:hover .el-sub-menu__title {
+        background: linear-gradient(137deg, #08B1FB 0%, #6004F5 100%);
+        color: #DCEFFE;
+        box-shadow: 0px 8px 6px 1px rgba(188, 170, 154, 0.69);
+      }
+
+      .el-sub-menu.is-active .el-sub-menu__title {
+        background: linear-gradient(137deg, #08B1FB 0%, #6004F5 100%);
+        box-shadow: 0px 8px 6px 1px rgba(188, 170, 154, 0.69);
+        color: #DCEFFE;
+      }
+
+    }
+
+    .el-sub-menu__title {
+      color: #000000;
+      font-size: 16px;
+    }
+
+    /* 二级菜单栏 */
+    .el-menu--inline .el-menu-item {
+      color: #000000;
+      font-size: 16px;
+      height: 45px !important;
+      line-height: 45px !important;
+    }
+
+    .el-menu--inline {
+      padding: 10px 0;
+    }
+
+    .el-menu--inline .el-menu-item:hover,
+    .el-menu--inline .el-menu-item.is-active {
+      background: none !important;
+      padding-left: 40px !important;
+      color: #2062D2 !important;
+      box-shadow: none;
+    }
+
+  }
+
+  /* 面包屑 */
+  .el-breadcrumb {
+    color: #000000;
+    margin-bottom: 30px;
+    background: none;
+  }
+
+  /* 头部 */
+  .header-wrapper {
+    padding: 8px 30px 0;
+    width: 100%;
+    height: 100px;
+    background: red;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    color: var(--btn-font-color-);
+    font-size: 14px;
+    z-index: 202;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: none;
+
+    .weather {
+      img {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    /* 标题 */
+    .header-title {
+      .title {
+        line-height: 20px;
+        height: 30px;
+        margin: 0 15px;
+        color: #000000;
+        font-weight: bold;
+      }
+
+      img {
+        width: 60px;
+        height: 60px;
+      }
+
+    }
+
+    /* 角色 */
+    .rolemenus {
+      .avatar {
+        background: none;
+        color: #000000;
+      }
+    }
+
+  }
+
+  /*公告 */
+  .notice {
+    border-radius: 0;
+    background: none;
+    order: 1;
+     img {
+          width: 24px;
+          height: 24px;
+          margin: 0 15px;
+        }
+  }
+
+  .content-container {
+    width: calc(100% - 224px);
+    position: absolute;
+    left: 224px;
+    padding: 30px;
+  }
+
+  .weather {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    color: #000000;
+  }
+
+  /* 首页 */
+  .content-wrapper {
+    width: 100%;
+  }
+
+  /* 个人中心 */
+  /* 修改密码 */
+  .center-wrapper,
+  .updatepassword-wrapper {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+  }
+}
+
+/* 过渡动画 */
+.transiton_1 {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(.4, 0, 1, 1);
+  transition-duration: .3s;
+}
+
+
+/* 这两个动画类名不能变，keyframes样式可以修改 */
+.animate__fadeSlideIn {
+  animation-name: fadeSlideIn;
+}
+
+.animate__fadeSlidOut {
+  animation-name: fadeSlideOut;
+}
+
+@keyframes fadeSlideIn {
+  from {
+    transform: translate3d(-30px, 0, 0);
+    visibility: visible;
+    opacity: 0;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes fadeSlideOut {
+  from {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    visibility: hidden;
+    opacity: 0;
+    transform: translate3d(30px, 0, 0);
+  }
+}

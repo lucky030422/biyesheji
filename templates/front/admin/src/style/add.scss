@@ -1,0 +1,151 @@
+
+/* 公共的弹框 */
+.el-dialog.yy-dialog {
+  
+  /* 宽度 */
+  --el-dialog-width: 80%;
+  padding: 0;
+  overflow: hidden;
+  margin-top: 100px;
+  max-width: 1150px;
+  min-width: 720px;
+background: #F0F0F0; 
+border-radius: 24px;  
+
+  
+
+  .el-dialog__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    padding: 0;
+
+  }
+
+  .el-dialog__title {
+    color: #000000;
+  }
+
+  .el-dialog__headerbtn {
+    .el-dialog__close {
+ color: #E5416A;
+    }
+
+    &:hover .el-dialog__close {
+      color: var(--btn2-bg-color-);
+    }
+  }
+
+  .el-dialog__body {
+    padding: var(--el-dialog-padding-primary);
+  }
+
+}
+.el-switch.is-checked .el-switch__core{
+  background: #2062D2!important;
+}
+    /* 提示语 */
+  .el-select__placeholder, 
+  .el-input__inner::placeholder ,.el-textarea__inner::placeholder{
+    color: #000000;
+    
+  }
+.el-input__wrapper,.el-select__wrapper,.el-textarea__inner,.ql{
+  border:1px solid #000000!important;
+  background: none;
+  box-shadow: none!important;
+}
+/* 新增表单 */
+.editform {
+  background: none;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  .el-form-item {
+    padding: 0;
+    margin: 0;
+    width: calc(50% - 10px);
+    height: auto;
+
+    /* 富文本的el-form-item */
+    &:has(.ql) {
+      width: 100%;
+    }
+
+    /* 多行文本的el-form-item */
+    &:has(textarea) {
+      width: 100%;
+    }
+  }
+
+  .el-form-item__label {
+    width: 120px;
+    color: #000000;
+  }
+
+  .el-form-item__content {
+    align-items: flex-start;
+  }
+
+  /* 图片 */
+  .el-upload-list--picture-card {
+    --el-upload-list-picture-card-size: 100px;
+  }
+
+  .el-upload--picture-card {
+    --el-upload-picture-card-size: 100px;
+  }
+
+  .btn-wrapper {
+    width: 100%;
+    display: flex;
+    padding-left: 60px;
+    gap: 20px;
+   justify-content: center;
+    .submit-btn {
+      border: 1px solid #E9E9E9;
+      color: #FFFFFF;
+      background: linear-gradient( 145deg, #179BED 0%, #670CFE 100%);
+      border-radius: 28px;
+      height: 44px;
+      min-width: 176px;
+
+      &:hover {
+        background: #2062D2;
+      }
+    }
+
+    .cancel-btn {
+      border: 0px solid #FF9AB3;
+      color: #33464C;
+      background: #D5E3F5;
+      border-radius: 28px;
+      height: 44px;
+      min-width: 176px;
+
+      &:hover {
+              opacity: 0.8;
+    }
+    }
+  }
+
+  /* 人脸识别 */
+  .face-form-item {
+    display: flex;
+
+    img {
+      width: 102px;
+      height: 102px;
+      overflow: hidden;
+      border-radius: 8px;
+      position: relative;
+      display: inline-block;
+      border: 1px solid #d9d9d9;
+    }
+  }
+}
+  

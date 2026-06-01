@@ -1,0 +1,17 @@
+.idea/
+.venv/
+.venv37/
+__pycache__/
+*.py[cod]
+
+node_modules/
+templates/front/node_modules/
+templates/front/admin/node_modules/
+
+config.ini
+.env
+*.log
+util/alipay_key/
+
+media/
+preview/
