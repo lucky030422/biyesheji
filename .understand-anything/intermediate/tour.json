@@ -1,0 +1,80 @@
+[
+  {
+    "order": 1,
+    "title": "Project Overview",
+    "description": "AGENT.md serves as the project's comprehensive developer guide, documenting the full architecture, directory structure, routing conventions, and coding standards across all layers. It explains how the Django backend serves both a user-facing Vue.js SPA and an admin panel SPA, each with its own Vite build pipeline and distinct UI. This document provides the essential mental model and vocabulary needed before exploring any code, making it the natural starting point for the tour.",
+    "nodeIds": ["document:AGENT.md"]
+  },
+  {
+    "order": 2,
+    "title": "Configuration Foundation",
+    "description": "The Django project settings in dj2/settings.py define the database connection (MySQL with PyMySQL), installed middleware stack, CORS policies, session engine, and third-party integrations including email and Alipay keys. Alongside it, requirements.txt lists all Python dependencies -- Django 5.2, PyMySQL, OpenAI SDK, Baidu AI SDK, and Apache Hadoop components -- that establish the runtime environment every other layer depends on.",
+    "nodeIds": ["file:dj2/settings.py", "config:requirements.txt"]
+  },
+  {
+    "order": 3,
+    "title": "Application Entry and Routing",
+    "description": "The manage.py script is the Django project's CLI entry point: it sets DJANGO_SETTINGS_MODULE, executes management commands, and starts the development server with automatic browser launch. The main/urls.py router then dynamically discovers every _v.py file in the main directory and registers its URL patterns automatically, while apps.py configures the application's display name. This convention-driven routing means adding a new API module requires creating only the _v.py file -- no manual route configuration needed.",
+    "nodeIds": ["file:manage.py", "file:main/urls.py", "file:main/apps.py"]
+  },
+  {
+    "order": 4,
+    "title": "ORM Data Models",
+    "description": "The ORM data layer is the foundation of every business operation, with models.py defining 30+ Django model classes that map directly to MySQL database tables. The base model.py class provides generic CRUD operations (page, list, save, update, delete, statistics) inherited by all business models, while config_model.py stores system-level key-value configuration. These three files together have the highest fan-in in the entire codebase (34-37 imports each), confirming their role as the central dependency for all API views.",
+    "nodeIds": ["file:main/models.py", "file:main/model.py", "file:main/config_model.py"],
+    "languageLesson": "Django ORM models define database table structure through Python class inheritance. Each model attribute maps to a database column, and the base model class (model.py) implements reusable query methods that every view calls, avoiding SQL repetition."
+  },
+  {
+    "order": 5,
+    "title": "Shared Utility Layer",
+    "description": "The utility layer provides shared infrastructure consumed by every API view: auth.py implements Base64 token-based authentication and session validation, codes.py defines standardized business status codes used in all API responses, common.py provides MD5 hashing, CustomJSONEncoder.py handles datetime and Decimal serialization for JSON responses, and baidubce_api.py wraps 15 Baidu Cloud AI services (face recognition, OCR, NLP, translation, image analysis). These files have fan-in scores of 32-36, making them the most depended-upon modules in the project -- every single API view imports them all.",
+    "nodeIds": ["file:util/auth.py", "file:util/codes.py", "file:util/common.py", "file:util/CustomJSONEncoder.py", "file:util/baidubce_api.py"],
+    "languageLesson": "Python utility modules with high fan-in follow a stateless, function-oriented design pattern. Each module exports pure functions or constants without class overhead, making them import-safe from any context without initialization side effects."
+  },
+  {
+    "order": 6,
+    "title": "API View Pattern",
+    "description": "Each _v.py file in the main directory follows a consistent CRUD pattern: implementing default, page, list, save, add, update, delete, detail, info, thumbsup, and vote methods against its corresponding model. The Yonghu_v.py file demonstrates this pattern with 26 view functions handling user registration (with email verification), login, session management, and profile CRUD -- the most complete example in the codebase. Building on Steps 4 and 5, it imports models.py and all five utility modules, showing the complete dependency chain from HTTP request to database persistence.",
+    "nodeIds": ["file:main/Yonghu_v.py"],
+    "languageLesson": "Django REST views in this project follow a function-based pattern rather than class-based views, with each endpoint mapped to a named function. The convention of appending '_v' to view module filenames enables automatic URL discovery by the router."
+  },
+  {
+    "order": 7,
+    "title": "General-Purpose API Gateway",
+    "description": "The schema_v.py file breaks the standard CRUD mold by providing nine general-purpose endpoints: WebSocket connections, file upload and download, AES/DES encryption and decryption, Baidu AI face recognition, AI chat, sentiment analysis, web crawling, and QR code generation. This file has the highest fan-out (9 imports) because it integrates more external capabilities than any other view. It demonstrates how the project extends beyond basic data CRUD to offer a full-service platform with AI, real-time communication, and security features.",
+    "nodeIds": ["file:main/schema_v.py"]
+  },
+  {
+    "order": 8,
+    "title": "Request Middleware Pipeline",
+    "description": "The xmiddleware directory implements a two-stage request processing pipeline that intercepts every API call. The xparam middleware preprocesses incoming request parameters -- handling decoding, validation, and session ID extraction -- while xauth middleware validates the Base64 auth token for protected endpoints, returning standardized error codes from Step 5's codes.py when authentication fails. These middleware components sit between the URL router and view functions, enforcing security and data normalization consistently across all 34 API views.",
+    "nodeIds": ["file:xmiddleware/xauth.py", "file:xmiddleware/xparam.py"]
+  },
+  {
+    "order": 9,
+    "title": "Database Schema",
+    "description": "The SQL schema file defines 33 database tables that physically store all application data: users and store staff, pets for sale and adoption, orders (pet, service, supplies, adoption, foster), service packages, health records, forum posts, chat messages, comments, favorites, and system configuration. Each table corresponds directly to a Django ORM model from Step 4 and an API handler from Step 6, forming a three-way traceability chain that makes the data flow easy to follow from HTTP request to disk.",
+    "nodeIds": ["table:db/djangoq0l722c8.sql"],
+    "languageLesson": "The SQL schema uses InnoDB engine with utf8mb4 encoding for full Unicode support. Foreign keys are handled at the application layer (Django ORM) rather than database-level constraints, a common pattern in Django projects that trades some referential integrity for deployment flexibility."
+  },
+  {
+    "order": 10,
+    "title": "Big Data Infrastructure",
+    "description": "The data infrastructure layer extends the application beyond MySQL into Hadoop-based analytics. The init.py CLI tool bootstraps databases from SQL schema files using Click commands, while initial_hive_database.py converts MySQL DDL into Hive-compatible DDL for running SQL-style analytics on Hadoop clusters. The hive_func.py module provides programmatic Hive query execution, supporting large-scale data processing pipelines that would be impractical in a standalone MySQL database.",
+    "nodeIds": ["file:init.py", "file:initial_hive_database.py", "file:util/hive_func.py"],
+    "languageLesson": "Hive DDL conversion requires mapping MySQL data types (VARCHAR, INT, DECIMAL, DATETIME) to Hive equivalents (STRING, INT, DOUBLE, TIMESTAMP). This project's converter also handles CREATE TABLE, INSERT, DROP statements using sqlparse, making it a bridge between operational (MySQL) and analytical (Hive) data stores."
+  },
+  {
+    "order": 11,
+    "title": "User-Facing Frontend SPA",
+    "description": "The user-facing single-page application is built with Vue 3, Vite, Element Plus, and Pinia. The main.js file bootstraps the app by creating and mounting the Vue instance with Pinia state management and Vue Router plugins. The router/index.js defines a Hash-mode router that dynamically loads page components based on user role permissions, while store/index.js manages login state, user profile, and menu caching in localStorage. The index.html loads Element Plus and ECharts via CDN for runtime code splitting, keeping the initial bundle small.",
+    "nodeIds": ["file:templates/front/src/main.js", "file:templates/front/src/router/index.js", "file:templates/front/src/store/index.js", "file:templates/front/index.html"],
+    "languageLesson": "Vue 3 single-file components with <script setup> provide a Composition API syntax that reduces boilerplate. The store uses Pinia's defineStore with the setup() style, enabling TypeScript-style state management without class decorators."
+  },
+  {
+    "order": 12,
+    "title": "Admin Frontend SPA",
+    "description": "The admin panel follows the same Vue 3 + Vite + Pinia architecture as the user frontend but targets administrative workflows. Its store/index.js manages admin user state and a menu version number that triggers UI refresh when role permissions change. The admin panel adds comprehensive CRUD table interfaces, ECharts dashboards, service chat components, and high-level business analytics views that the user-facing app omits. Both frontends share the same Django API backend (Steps 6-7) but present entirely different UIs optimized for their respective audiences.",
+    "nodeIds": ["file:templates/front/admin/src/main.js", "file:templates/front/admin/src/router/index.js", "file:templates/front/admin/src/store/index.js", "file:templates/front/admin/index.html"]
+  }
+]

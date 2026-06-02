@@ -1,0 +1,20 @@
+{
+  "fixedSectionOk": true,
+  "nodesRecovered": 14,
+  "edgesRestored": 42,
+  "crossBatchEdgesAdded": 17,
+  "typesRemapped": 0,
+  "complexityRemapped": 0,
+  "notes": [
+    "74 duplicate node IDs removed (~5.9% of 1254), 属于正常范围，无异常。",
+    "14 个缺失的文件节点已恢复：这些文件在磁盘上实际存在、被扫描且在其他文件的导入语句中被引用，但批次分析未为其生成文件节点。",
+    "恢复的文件包括：util/message.py, util/sqlinit.py, util/locate.py, util/hive_func.py, main/Jiyangdingdan_v.py, 以及多个前端 JS 工具文件（routers.js, form.js, tableConfigs.js, getListButtons.js, global.js）。",
+    "合并脚本报告称这些文件'不存在于磁盘'，但实际它们均存在于项目中。这意味着合并脚本的判断依据是批次节点而非磁盘文件。",
+    "59 条缺失的 imports 边已从导入映射中添加。",
+    "其中约 42 条是合并脚本所报告的被丢弃边（因目标节点缺失），约 17 条是跨批次未出现在任何批次输出中的额外关系。",
+    "所有恢复的节点使用默认摘要（'No summary available'）和标签（['untagged']），因为原始批次分析未提供这些文件的信息。",
+    "修复后图形状态：1268 个节点（370 个文件），2002 条边（319 条 imports 边），与导入映射中的 319 条关系完全一致。",
+    "未发现未知类型（unknown types）或未知复杂度值（unknown complexity）。",
+    "未发现跨批次边缺口（即两个节点都存在但边缺失的情况）——合并脚本已成功处理了所有交叉引用。"
+  ]
+}

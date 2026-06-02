@@ -1,0 +1,127 @@
+{
+  "projectName": "Django Pet Management System",
+  "analysisDate": "2026-06-01T17:29:17.103Z",
+  "understandAnythingVersion": "2.7.5",
+  "summary": {
+    "files": 370,
+    "functions": 807,
+    "classes": 45,
+    "tables": 34,
+    "configs": 7,
+    "documents": 5,
+    "totalNodes": 1268,
+    "totalEdges": 2002,
+    "layers": 9,
+    "tourSteps": 12,
+    "totalScannedFiles": 506
+  },
+  "layerSummary": [
+    {
+      "id": "layer:api",
+      "name": "API Layer",
+      "nodeCount": 34
+    },
+    {
+      "id": "layer:service",
+      "name": "Backend Service Layer",
+      "nodeCount": 13
+    },
+    {
+      "id": "layer:utility",
+      "name": "Utility Layer",
+      "nodeCount": 10
+    },
+    {
+      "id": "layer:data",
+      "name": "Data Infrastructure Layer",
+      "nodeCount": 44
+    },
+    {
+      "id": "layer:config",
+      "name": "Configuration Layer",
+      "nodeCount": 9
+    },
+    {
+      "id": "layer:frontend-admin",
+      "name": "Admin Frontend Layer",
+      "nodeCount": 125
+    },
+    {
+      "id": "layer:frontend-user",
+      "name": "User Frontend Layer",
+      "nodeCount": 175
+    },
+    {
+      "id": "layer:documentation",
+      "name": "Documentation Layer",
+      "nodeCount": 5
+    },
+    {
+      "id": "layer:infrastructure",
+      "name": "Infrastructure Layer",
+      "nodeCount": 1
+    }
+  ],
+  "tourSummary": [
+    {
+      "id": 1,
+      "title": "Project Overview",
+      "step": 1
+    },
+    {
+      "id": 2,
+      "title": "Configuration Foundation",
+      "step": 2
+    },
+    {
+      "id": 3,
+      "title": "Application Entry and Routing",
+      "step": 3
+    },
+    {
+      "id": 4,
+      "title": "ORM Data Models",
+      "step": 4
+    },
+    {
+      "id": 5,
+      "title": "Shared Utility Layer",
+      "step": 5
+    },
+    {
+      "id": 6,
+      "title": "API View Pattern",
+      "step": 6
+    },
+    {
+      "id": 7,
+      "title": "General-Purpose API Gateway",
+      "step": 7
+    },
+    {
+      "id": 8,
+      "title": "Request Middleware Pipeline",
+      "step": 8
+    },
+    {
+      "id": 9,
+      "title": "Database Schema",
+      "step": 9
+    },
+    {
+      "id": 10,
+      "title": "Big Data Infrastructure",
+      "step": 10
+    },
+    {
+      "id": 11,
+      "title": "User-Facing Frontend SPA",
+      "step": 11
+    },
+    {
+      "id": 12,
+      "title": "Admin Frontend SPA",
+      "step": 12
+    }
+  ]
+}
