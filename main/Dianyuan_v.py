@@ -165,7 +165,7 @@ def dianyuan_resetPass(request):
             msg['msg'] = '用户不存在'
             return JsonResponse(msg, encoder=CustomJsonEncoder)
 
-        eval('''dianyuan.objects.filter({}='{}').update({}='{}')'''.format(username_str,username,password_str,init_pwd))
+        dianyuan.objects.filter(**{username_str: username}).update(**{password_str: init_pwd})
         
         return JsonResponse(msg, encoder=CustomJsonEncoder)
 

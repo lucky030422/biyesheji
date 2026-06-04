@@ -1,10 +1,28 @@
 # coding:utf-8
-import base64, copy
+import ast
+import base64
+import copy
+import json
 from django.http import JsonResponse
 from django.apps import apps
 
 from util.codes import *
 from util import message as mes
+
+
+def _encode_token_payload(payload):
+    return base64.b64encode(
+        json.dumps(payload, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+    ).decode("utf-8")
+
+
+def _decode_token_payload(token):
+    decoded = base64.b64decode(token).decode("utf-8")
+    try:
+        return json.loads(decoded)
+    except json.JSONDecodeError:
+        legacy_payload = decoded.replace('"null"', '""').replace("null", '""')
+        return ast.literal_eval(legacy_payload)
 
 
 class Auth(object):
@@ -19,19 +37,17 @@ class Auth(object):
         tablename = model.__tablename__
         encode_dict = {"tablename": tablename, "params": req_dict}
 
-        encode_str = base64.b64encode(str(encode_dict).encode("utf-8"))
         msg['data']["id"] = req_dict.get("id")
         msg["id"] = req_dict.get("id")
         msg["username"] = req_dict.get("username")
-        msg['token'] = encode_str.decode('utf-8')
+        msg['token'] = _encode_token_payload(encode_dict)
         return JsonResponse(msg)
 
     def get_token(self, model, req_dict):
         tablename=model.__tablename__
         encode_dict = {"tablename":tablename, "params": req_dict}
 
-        encode_str = base64.b64encode(str(encode_dict).encode("utf8"))
-        return encode_str.decode('utf-8')
+        return _encode_token_payload(encode_dict)
 
     def identify(self, request):
         """
@@ -48,9 +64,7 @@ class Auth(object):
 
             auth_token = copy.deepcopy(token)
 
-            decode_str = base64.b64decode(auth_token).decode("utf8")
-            decode_str=decode_str.replace('"null"','""').replace('null','""')
-            decode_dict = eval(decode_str)
+            decode_dict = _decode_token_payload(auth_token)
 
             tablename2 = decode_dict.get("tablename")
 
@@ -80,7 +94,6 @@ class Auth(object):
     def getTokenInfo(self, request):
         try:
             token = request.META.get('HTTP_TOKEN')
-            decode_str = eval(base64.b64decode(token).decode("utf8"))
-            return decode_str
+            return _decode_token_payload(token)
         except:
             return {}

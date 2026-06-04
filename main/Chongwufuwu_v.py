@@ -478,7 +478,7 @@ def chongwufuwu_autoSort2(request):
         sorted_recommended_goods=[]
         user_ratings={}
         token = request.META.get('HTTP_TOKEN')
-        decode_str = eval(base64.b64decode(token).decode("utf8"))
+        decode_str = Auth().getTokenInfo(request)
         user_id = decode_str['params']["id"]
 
         try:

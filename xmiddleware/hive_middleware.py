@@ -1,10 +1,13 @@
 # coding:utf-8
 
+import logging
+
 from django.db import connection
 from django.utils.deprecation import MiddlewareMixin
 
 from util.hive_func import hive_func
 from dj2.settings import dbName
+logger = logging.getLogger(__name__)
 rename={
 
     }
@@ -21,7 +24,7 @@ class HiveMiddleware(MiddlewareMixin):
 
             # 只判断insert的数据
             if 'insert' in raw_sql and len(raw_sql) > 8:
-                print(raw_sql)
+                logger.debug("Captured insert SQL for Hive sync: %s", raw_sql)
                 sql_list.append(raw_sql)
 
         hive_func(sql_list)

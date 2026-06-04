@@ -1,12 +1,15 @@
 #coding:utf-8
+import logging
 import json,copy
 from django.utils.deprecation import MiddlewareMixin
 from django.http import JsonResponse
 
+logger = logging.getLogger(__name__)
+
 class Xparam(MiddlewareMixin):
     def process_request(self,request):
         fullPath=request.get_full_path()
-        print("fullPath===============>",fullPath)
+        logger.debug("Request path: %s", fullPath)
         if request.META.get('HTTP_UPGRADE')=='websocket':
             return
         if "/js/" not in fullPath and "/css/" not in fullPath and "/img/" not in fullPath and "/fonts/" not in fullPath and "/front/" not in fullPath:
@@ -48,5 +51,5 @@ class Xparam(MiddlewareMixin):
             if req_dict.get(1)!=None:
                 req_dict['type']=copy.deepcopy(req_dict.get(1))
                 del req_dict[1]
-            print("req_dict=============+>",req_dict)
+            logger.debug("Request parameters: %s", req_dict)
             request.session["req_dict"] =req_dict

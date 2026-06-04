@@ -10,9 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 import os
-from concurrent.futures.thread import ThreadPoolExecutor
-executor = ThreadPoolExecutor(20)
+import logging
+
 from util.configread import config_read
+
+logger = logging.getLogger(__name__)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -54,7 +56,6 @@ MIDDLEWARE = [
     "xmiddleware.xparam.Xparam",
     "xmiddleware.xauth.Xauth",
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_ALL_ORIGINS = True
@@ -110,7 +111,16 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 
 dbtype, host, port, user, passwd, dbName, charset,hasHadoop = config_read("config.ini")
 dbName=dbName.replace(" ","").strip()
-print(dbtype, host, port, user, '******' if passwd else '', dbName, charset)
+logger.debug(
+    "Database config loaded: type=%s host=%s port=%s user=%s password=%s db=%s charset=%s",
+    dbtype,
+    host,
+    port,
+    user,
+    "******" if passwd else "",
+    dbName,
+    charset,
+)
 
 if dbtype == 'mysql':
     DATABASES = {
@@ -136,7 +146,7 @@ if dbtype == 'mysql':
         },
     }
 else:
-    print("请使用mysql5.5数据库")
+    logger.error("请使用mysql5.5数据库")
     os._exit(1)
 
 # Password validation

@@ -1,5 +1,7 @@
 #coding:utf-8
 
+import logging
+
 from django.utils.deprecation import MiddlewareMixin
 from django.http import JsonResponse
 from django.apps import apps
@@ -8,11 +10,13 @@ from util.auth import Auth
 from util.codes import *
 from dj2.settings import dbName as schemaName
 
+logger = logging.getLogger(__name__)
+
 
 class Xauth(MiddlewareMixin):
     def process_request(self,request):
         fullPath = request.get_full_path()
-        print("fullPath===============>", fullPath)
+        logger.debug("Request path: %s", fullPath)
         if request.META.get('HTTP_UPGRADE')=='websocket':
             return
         if request.method == 'GET':
@@ -109,5 +113,5 @@ class Xauth(MiddlewareMixin):
                 result = Auth.identify(Auth, request)
 
                 if result.get('code') != normal_code:
-                    print('jwt auth fail')
+                    logger.debug("JWT auth failed for path: %s", fullPath)
                     return JsonResponse(result)

@@ -44,14 +44,13 @@ class BaseModel(models.Model):
         :return:
         '''
         start_time = end_time  = None
-        between_str=''
+        between_filter = None
         paramss=copy.deepcopy(params)
         per = ""
         for k,v in paramss.items():
             if k[-5:]=='start':
                 per = copy.deepcopy(k[:-5])
                 start_time=copy.deepcopy(v)
-                between_str = '.filter({}__range= [start_time, end_time])'.format(copy.deepcopy(k[:-5]))
                 del params[k]
             if  k[-3:]=='end':
                 per = copy.deepcopy(k[:-3])
@@ -59,9 +58,11 @@ class BaseModel(models.Model):
                 del params[k]
 
         if start_time == None and end_time is not None:
-            between_str = '.filter(Q({}__lte=end_time))'.format(per)
+            between_filter = Q(**{"{}__lte".format(per): end_time})
         if end_time == None and start_time is not None:
-            between_str = '.filter(Q({}__gte=start_time))'.format(per)
+            between_filter = Q(**{"{}__gte".format(per): start_time})
+        if start_time is not None and end_time is not None:
+            between_filter = Q(**{"{}__range".format(per): [start_time, end_time]})
 
         sort = copy.deepcopy(params.get('sort'))
         if sort is None:
@@ -94,37 +95,38 @@ class BaseModel(models.Model):
         except:
             __sort__ = None
         # 手工实现模糊搜索orz
-        fuzzy_key, fuzzy_val,contain_str = None, None,''
-        print(params)
+        fuzzy_filters = []
+        log.debug("page params: %s", params)
         condition = {}
         for k, v in params.items():
             if "%" in str(v):
                 fuzzy_key = copy.deepcopy(k)
                 fuzzy_val = copy.deepcopy(v)
                 fuzzy_val = fuzzy_val.replace("%", "")
-                if fuzzy_key != None:
-                    # del params[fuzzy_key]
-                    contain_str +='.filter({}__icontains="{}")'.format(fuzzy_key,fuzzy_val)
+                fuzzy_filters.append((fuzzy_key, fuzzy_val))
             else:
                 if copy.deepcopy(v) is not None and copy.deepcopy(v)!="":
-                    print("key:", copy.deepcopy(k))
-                    print("value:", copy.deepcopy(v))
+                    log.debug("page filter %s=%s", copy.deepcopy(k), copy.deepcopy(v))
                     condition[copy.deepcopy(k)] = copy.deepcopy(v)
-        order_by_str=''
+        order_fields = []
         if sort != None or __sort__ != None:
             if sort == None:
                 sort = __sort__
-            order_sort_list = [None] * len(sort.split(","))
+            order_parts = order.split(",") if order != None else []
             for index, value in enumerate(sort.split(",")):
-                if order != None and order.split(",")[index] == 'desc':
-                    order_sort_list[index] = "'-{}'".format(value)
+                if index < len(order_parts) and order_parts[index] == 'desc':
+                    order_fields.append("-{}".format(value))
                 else:
-                    order_sort_list[index] = "'{}'".format(value)
-            order_sort_str = ",".join(order_sort_list)
-            order_by_str = '.order_by({})'.format(order_sort_str)
+                    order_fields.append("{}".format(value))
 
-        datas = eval(
-            '''model.objects.filter(**condition).filter(q){}{}{}.all()'''.format(contain_str, between_str, order_by_str))
+        datas = model.objects.filter(**condition).filter(q)
+        for fuzzy_key, fuzzy_val in fuzzy_filters:
+            datas = datas.filter(**{"{}__icontains".format(fuzzy_key): fuzzy_val})
+        if between_filter is not None:
+            datas = datas.filter(between_filter)
+        if order_fields:
+            datas = datas.order_by(*order_fields)
+        datas = datas.all()
         p = Paginator(datas, int(limit))
         try:
             p2 = p.page(int(page))
@@ -351,7 +353,7 @@ class BaseModel(models.Model):
         :param params:
         :return:
         '''
-        print("__GetBetweenParams params=============>",params)
+        log.debug("__GetBetweenParams params: %s", params)
         remindstart = copy.deepcopy(params.get("remindstart"))
         remindend = copy.deepcopy(params.get("remindend"))
         try:
@@ -369,13 +371,15 @@ class BaseModel(models.Model):
             pass
         # todo where是否合法
         if remindstart>remindend:
-            datas = eval(
-                "model.objects.filter(**params).filter(Q({}__lte=remindend) | Q({}__gte=remindstart)).all()".format(
-                    columnName, columnName))
+            datas = model.objects.filter(**params).filter(
+                Q(**{"{}__lte".format(columnName): remindend})
+                | Q(**{"{}__gte".format(columnName): remindstart})
+            ).all()
         else:
-            datas = eval(
-                "model.objects.filter(**params).filter({}__range= [remindstart, remindend]).all()".format(columnName))
-        print("datas===========>",datas)
+            datas = model.objects.filter(**params).filter(
+                **{"{}__range".format(columnName): [remindstart, remindend]}
+            ).all()
+        log.debug("between query result: %s", datas)
         try:
             data = [i if i.items else model_to_dict(i) for i in datas]
         except:
@@ -484,8 +488,8 @@ class BaseModel(models.Model):
         newParams = {}
         for k, v in params.items():
             if k in column_list:
-                ret1 = re.findall("\d{4}-\d{2}-\d{2}", str(v))
-                ret2 = re.findall("\d{2}:\d{2}:\d{2}", str(v))
+                ret1 = re.findall(r"\d{4}-\d{2}-\d{2}", str(v))
+                ret2 = re.findall(r"\d{2}:\d{2}:\d{2}", str(v))
                 if len(ret1) > 0 and  len(ret2) > 0:
                     newParams[k] ="{} {}".format( ret1[0],ret2[0])
                 else:

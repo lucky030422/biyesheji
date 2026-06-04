@@ -481,7 +481,7 @@ def shangpindingdan_count(request):
             if req_dict[key] != None:
                 where = where + " and key like '{0}'".format(req_dict[key])
         token = request.META.get('HTTP_TOKEN')
-        decode_str = eval(base64.b64decode(token).decode("utf8"))
+        decode_str = Auth().getTokenInfo(request)
         if decode_str['tablename'] == 'yonghu':
             where = where + " and zhanghao ='{0}' ".format(decode_str['params']['zhanghao'])
         
@@ -536,7 +536,7 @@ def shangpindingdan_value(request, xColumnName, yColumnName, timeStatType):
         msg = {"code": normal_code, "msg": "成功", "data": {}}
         where = " where sfsh IN ('是') "
         token = request.META.get('HTTP_TOKEN')
-        decode_str = eval(base64.b64decode(token).decode("utf8"))
+        decode_str = Auth().getTokenInfo(request)
         if decode_str['tablename'] == 'yonghu':
             where = where + " and zhanghao ='{0}' ".format(decode_str['params']['zhanghao'])
         raw_query_string = request.META.get('QUERY_STRING', '')
@@ -626,7 +626,7 @@ def shangpindingdan_o_value(request, xColumnName, yColumnName):
         msg = {"code": normal_code, "msg": "成功", "data": {}}
         where = " where sfsh IN ('是') "
         token = request.META.get('HTTP_TOKEN')
-        decode_str = eval(base64.b64decode(token).decode("utf8"))
+        decode_str = Auth().getTokenInfo(request)
         if decode_str['tablename'] == 'yonghu':
             where = where + " and zhanghao ='{0}' ".format(decode_str['params']['zhanghao'])
         raw_query_string = request.META.get('QUERY_STRING', '')
@@ -693,7 +693,7 @@ def shangpindingdan_valueMul(request, xColumnName, timeStatType):
         req_dict = request.session.get("req_dict")
         where = ' where 1 = 1 '
         token = request.META.get('HTTP_TOKEN')
-        decode_str = eval(base64.b64decode(token).decode("utf8"))
+        decode_str = Auth().getTokenInfo(request)
         if decode_str['tablename'] == 'yonghu':
             where = where + " and zhanghao ='{0}' ".format(decode_str['params']['zhanghao'])
         raw_query_string = request.META.get('QUERY_STRING', '')
@@ -788,7 +788,7 @@ def shangpindingdan_o_valueMul(request, xColumnName):
         req_dict = request.session.get("req_dict")
         where = ' where 1 = 1 '
         token = request.META.get('HTTP_TOKEN')
-        decode_str = eval(base64.b64decode(token).decode("utf8"))
+        decode_str = Auth().getTokenInfo(request)
         if decode_str['tablename'] == 'yonghu':
             where = where + " and zhanghao ='{0}' ".format(decode_str['params']['zhanghao'])
         raw_query_string = request.META.get('QUERY_STRING', '')
@@ -844,7 +844,7 @@ def shangpindingdan_group(request, columnName):
 
         where = ' where 1 = 1 '
         token = request.META.get('HTTP_TOKEN')
-        decode_str = eval(base64.b64decode(token).decode("utf8"))
+        decode_str = Auth().getTokenInfo(request)
         if decode_str['tablename'] == 'yonghu':
             where = where + " and zhanghao ='{0}' ".format(decode_str['params']['zhanghao'])
         raw_query_string = request.META.get('QUERY_STRING', '')

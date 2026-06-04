@@ -1,6 +1,6 @@
 # coding:utf-8
 
-import logging, os, time
+import logging, os, re, subprocess, time
 import json
 from django.http import JsonResponse
 from django.apps import apps
@@ -400,19 +400,19 @@ def schemaName_upload(request, fileName):
     '''
     if request.method in ["POST", "GET"]:
         fullPath = request.get_full_path()
-        print("{}=============>".format(sys._getframe().f_code.co_name), fullPath)
+        logger.debug("%s path: %s", schemaName_upload.__name__, fullPath)
         path1 = os.path.join(os.getcwd(), "templates/upload/", fileName)
-        return check_suffix(eval(eval(sys._getframe().f_code.co_name).__code__.co_varnames[-3]),path1)
+        return check_suffix(fileName,path1)
 
 def schemaName_upload_forecast(request,tableName,fileName):
     '''
     '''
     if request.method in ["POST", "GET"]:
         fullPath = request.get_full_path()
-        print("{}=============>".format(sys._getframe().f_code.co_name), fullPath)
+        logger.debug("%s path: %s", schemaName_upload_forecast.__name__, fullPath)
         path1 = os.path.join(os.getcwd(), "templates/upload/", tableName,fileName)
 
-        return check_suffix(eval(eval(sys._getframe().f_code.co_name).__code__.co_varnames[-3]),path1)
+        return check_suffix(fileName,path1)
 
 
 def schemaName_group_quyu(request, tableName, columnName):
@@ -533,11 +533,20 @@ logger = logging.getLogger(__name__)
 def schemaName_spider(request, tableName):
     if request.method in ["POST", "GET"]:
         msg = {"code": normal_code, "msg": "成功", "data": []}
-        # Linux
-        cmd = "cd /yykj/python/9999/spider${spiderSchemaName} && scrapy crawl "+tableName+"Spider -a databaseName=djangoq0l722c8"
-        # Windows
-        # cmd = "cd C:\\test1\\spider && scrapy crawl " + tableName + "Spider -a databaseName=djangoq0l722c8"
-        os.system(cmd)
+        if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_]*", tableName):
+            msg["code"] = 400
+            msg["msg"] = "invalid tableName"
+            return JsonResponse(msg, status=400)
+
+        spider_dir = "/yykj/python/9999/spider{}".format(os.getenv("spiderSchemaName", ""))
+        try:
+            subprocess.run(
+                ["scrapy", "crawl", "{}Spider".format(tableName), "-a", "databaseName=djangoq0l722c8"],
+                cwd=spider_dir,
+                check=False,
+            )
+        except OSError as e:
+            logger.warning("spider command failed to start: %s", e)
 
         return JsonResponse(msg)
 
