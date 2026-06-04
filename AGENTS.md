@@ -1,3 +1,38 @@
+# AGENTS.md
+
+## Core Rules
+
+- Prefer the smallest possible correct change.
+- Do not modify unrelated files.
+- Reuse existing patterns and utilities.
+- Preserve public APIs unless required.
+
+## Workflow
+
+- Read relevant code before editing.
+- Explain the root cause briefly.
+- Propose a short plan before large changes.
+- Keep diffs minimal and focused.
+
+## Safety
+
+- Never run destructive commands.
+- Never overwrite configs or secrets.
+- Never delete files unless explicitly requested.
+
+## Quality
+
+- Run relevant tests after changes.
+- Never claim success without verification.
+
+## Communication
+
+- Be concise.
+- Clearly list modified files.
+- Mention risks and tradeoffs.
+
+--- project-doc ---
+
 # Repository Guidelines
 
 ## Project Structure & Module Organization
