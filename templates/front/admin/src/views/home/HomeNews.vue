@@ -24,12 +24,19 @@ function showContent(item) {
 </script>
 <template>
   <div class="home-news">
-    <div class="title">{{ newsData.title }}</div>
+    <div class="news-header">
+      <div>
+        <p>公告中心</p>
+        <h2>{{ newsData.title }}</h2>
+      </div>
+      <span>{{ newsData.list.length }} 条</span>
+    </div>
     <div class="list">
       <div v-for="(item, index) in newsData.list" :key="item.id" class="item" @click="showContent(item)">
-        <span class="index">0{{ index + 1 }}</span>
+        <span class="index">{{ String(index + 1).padStart(2, '0') }}</span>
         <span class="label">{{ item.title }}</span>
       </div>
+      <el-empty v-if="!newsData.list.length" description="暂无公告" />
     </div>
 
     <el-dialog v-model="dialogVisible" :title="actData.title" width="80%">
@@ -38,59 +45,4 @@ function showContent(item) {
     </el-dialog>
   </div>
 </template>
-<style>
-.home-news {
-  width: calc(50% - 10px);
-  background: #fff;
-  border-radius: 10px;
-  padding: 10px;
-
-  .title {
-    font-weight: 600;
-    text-align: center;
-    height: 32px;
-    line-height: 32px;    
-  }
-  .item {
-    margin-top: 12px;
-    .index {
-      color: #bbb;
-      font-weight: 700;
-      font-size: 20px;
-      margin-right: 10px;
-    }
-    .label {
-      color: #000;
-      transition: all 0.3s linear;
-      cursor: pointer;
-    }
-    &:hover {
-      .label {
-        color: #1890ff;
-      }
-    }
-
-    &:nth-of-type(1) {
-      .index {
-        color: #ef7900;
-      }
-    }
-    &:nth-of-type(2) {
-      .index {
-        color: #2775a7;
-      }
-    }
-    &:nth-of-type(3) {
-      .index {
-        color: #1bb4bb;
-      }
-    }
-    &:nth-of-type(4) {
-      .index {
-        color: #b997b3;
-      }
-    }
-  }
-}
-</style>
   

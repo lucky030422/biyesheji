@@ -8,11 +8,10 @@
  * 
  * 选填:
  * @param { Boolean } isCollapse 是否折叠
- * @param { Function } switchCollapse 折叠/展开
  */
 import { ref, watch, inject } from 'vue'
 import { useRoute } from 'vue-router'
-const { menus, isCollapse, switchCollapse, clickEvent } = inject('header')
+const { menus, isCollapse, clickEvent } = inject('header')
 
 // 激活的菜单项,默认首页
 const route = useRoute()
@@ -96,13 +95,6 @@ watch(
         </template>
       </el-menu>
     </el-scrollbar>
-
-    <!-- 折叠按钮 -->
-    <el-button
-      :icon="isCollapse ? 'Expand' : 'Fold'"
-      class="collapse-btn"
-      @click="switchCollapse"
-    />
   </aside>
 </template>
 
@@ -116,14 +108,6 @@ watch(
     border-right: none;
     overflow: hidden;
 
-    .el-menu-item:hover{
-      background: linear-gradient(to bottom, #4A1BDD, #4B1CDE, #8838FF);
-      color: #fff;
-    }
-    .el-menu-item.is-active{
-      background: linear-gradient(to bottom, #4A1BDD, #4B1CDE, #8838FF);
-      color: #fff;
-    }
   }
 
   .el-menu--vertical {
@@ -131,4 +115,3 @@ watch(
   }
 }
 </style>
-  

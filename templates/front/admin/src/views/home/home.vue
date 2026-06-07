@@ -7,7 +7,6 @@ import { onMounted, ref, provide } from 'vue'
 
 import HomeChart from './HomeChart.vue'
 import HomeCount from './HomeCount.vue'
-import HomeTitle from './HomeTitle.vue'
 import HomeNews from './HomeNews.vue'
 import Custom from './Custom.vue'
 
@@ -98,10 +97,26 @@ provide('home', {
         : ''
     "
   >
-    <HomeCount />  
-<HomeChart />  
-<Custom />  
+    <section class="home-hero">
+      <div>
+        <p class="home-kicker">运营概览</p>
+        <h1>宠物服务管理后台</h1>
+        <p class="home-subtitle">订单、服务、寄养、商品数据统一看板</p>
+      </div>
+      <div class="home-hero-meta">
+        <span>实时数据</span>
+        <strong>{{ roleCountList.length }}</strong>
+        <em>个统计模块</em>
+      </div>
+    </section>
 
-  
+    <HomeCount />  
+
+    <section class="home-dashboard">
+      <HomeChart />
+      <HomeNews />
+    </section>
+
+    <Custom />
   </div>
 </template>

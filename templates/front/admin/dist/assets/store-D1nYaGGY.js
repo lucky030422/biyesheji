@@ -1,0 +1,1 @@
+import{b as e,yt as t}from"./index-D1CIWHIK.js";import{t as n}from"./avatar-B4coMvPD.js";const r=e(`userinfo`,()=>{let e=t({avatar:n,username:`游客`});function r(t){e.value=t}return{userInfo:e,setUserInfo:r}});e(`menusVersion`,()=>{let e=t(0);function n(){e.value+=1}return{version:e,update:n}});export{r as t};

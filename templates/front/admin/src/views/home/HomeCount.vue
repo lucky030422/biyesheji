@@ -8,12 +8,17 @@
  */
 import { inject } from 'vue'
 const { roleCountList } = inject('home')
+const statIcons = ['DocumentChecked', 'House', 'ShoppingBag', 'Goods']
 </script>
 <template>
   <div class="statis-wrapper" v-if="roleCountList.length">
     <div v-for="(item, index) in roleCountList" :key="item.comments" class="statis-box-common" :class="'statis-box' + (index + 1)">
       <!-- 图标 -->
-      <div class="icon-box" :class="'icon-box' + (index + 1)"></div>
+      <div class="icon-box" :class="'icon-box' + (index + 1)">
+        <el-icon>
+          <component :is="statIcons[index] || 'DataAnalysis'" />
+        </el-icon>
+      </div>
 
       <!-- 文字 -->
       <div class="info-box">
